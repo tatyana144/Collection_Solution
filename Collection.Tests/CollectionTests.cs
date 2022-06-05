@@ -190,6 +190,296 @@ namespace Collection.Tests
                () );
         }
 
+        [Test]
+        public void Test_Collections_RemoveAtStart()
+        {
+            //Arange
+            var names = new Collection<string>("Peter", "Maria", "Steve", "Mia");
 
+            //Act
+            var removed = names.RemoveAt(0);
+
+            //Assert
+            Assert.That(removed, Is.EqualTo("Peter"));
+            Assert.That(names.ToString(), Is.EqualTo("[Maria, Steve, Mia]"));
+        }
+
+        [Test]
+        public void Test_Collections_RemoveAtMiddle()
+        {
+            //Arange
+            var names = new Collection<string>("Peter", "Maria", "Steve", "Mia");
+
+            //Act
+            var removed = names.RemoveAt(2);
+
+            //Assert
+            Assert.That(removed, Is.EqualTo("Steve"));
+            Assert.That(names.ToString(), Is.EqualTo("[Peter, Maria, Mia]"));
+        }
+
+        [Test]
+        public void Test_Collections_RemoveAtEnd()
+        {
+            //Arange
+            var names = new Collection<string>("Peter", "Maria", "Steve", "Mia");
+
+            //Act
+            var removed = names.RemoveAt(3);
+
+            //Assert
+            Assert.That(removed, Is.EqualTo("Mia"));
+            Assert.That(names.ToString(), Is.EqualTo("[Peter, Maria, Steve]"));
+        }
+
+        [Test]
+        public void Test_Collection_AddWithGrow()
+        {
+            //Arrange
+            var nums = new Collection<int>();
+            var oldCapacity = nums.Capacity;
+
+            //Act
+            for (int i = 0; i <= 10; i++)
+            {
+                nums.Add(i);
+            }
+            string expectedNums = string.Join(", ", nums);
+
+            //Assert
+            Assert.That(nums.Capacity, Is.GreaterThanOrEqualTo(nums.Count));
+            Assert.That(nums.Capacity, Is.GreaterThanOrEqualTo(oldCapacity));
+            Assert.That(nums.ToString(), Is.EqualTo(expectedNums));
+
+        }
+
+        [Test]
+        public void Test_Collection_CountAndCapacity()
+        {
+            //Arrange
+            var nums = new Collection<int>();
+
+            //Act
+            for (int i = 0; i < 100; i++)
+            {
+                nums.Add(i);
+            }
+
+            //Assert
+            Assert.That(nums.Count==100);
+            Assert.That(nums.Capacity, Is.GreaterThanOrEqualTo(nums.Count));
+
+
+        }
+
+        [Test]
+        public void Test_Collection_ExchangeFirstLast()
+        {
+            //Arragne
+            var nums = new Collection<int>(1, 2, 3, 4);
+
+            //Act
+            nums.Exchange(0, 3);
+
+            //Assert
+            Assert.That(nums.ToString, Is.EqualTo("[4, 2, 3, 1]"));
+        }
+
+        [Test]
+        public void Test_Collection_ExchangeInvalidIndex()
+        {
+            //Arrange
+            var nums = new Collection<int>(1, 2, 3, 4);
+
+            //Assert
+            Assert.Throws<ArgumentOutOfRangeException>(() => nums.Exchange(0,5));
+        }
+
+        [Test]
+        public void Test_Collection_ExchangeMiddle()
+        {
+            //Arrange
+            var nums = new Collection<int>(1, 2, 3, 4);
+
+            //Act
+            nums.Exchange(1, 2);
+
+            //Assert
+
+            Assert.That(nums.ToString(), Is.EqualTo("[1, 3, 2, 4]"));
+        }
+
+        [Test]
+        public void Test_Collection_AddAtEnd()
+        {
+            //Arrange
+            var nums = new Collection<int>(1, 2, 3, 4, 5, 6);
+
+            //Act
+            nums.InsertAt(6, 7);
+
+            //Assert
+            Assert.That(nums.ToString, Is.EqualTo("[1, 2, 3, 4, 5, 6, 7]")); ;
+        }
+
+        [Test]
+        public void Test_Collection_InsertByInvalidIndex()
+        {
+            //Arrange
+            var names = new Collection<string>("Vasil", "Boryana");
+
+            //Assert
+            Assert.That(() => names.InsertAt(-1, "Peter"),
+                Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => names.InsertAt(4, "Matea"),
+                Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(names.ToString(), Is.EqualTo("[Vasil, Boryana]"));
+        }
+        [Test]
+        public void Test_Collection_InstertWithGrow()
+        {
+            //Arrange
+            var nums = new Collection<int>();
+            int oldCpacity = nums.Capacity;
+
+            //Act
+            for (int i = 0; i <= 4; i++)
+            {
+                nums.InsertAt(i, i+1);
+            }
+
+            //Assert
+            Assert.That(nums.Capacity, Is.GreaterThanOrEqualTo(oldCpacity));
+            Assert.That(nums.ToString(), Is.EqualTo("[1, 2, 3, 4, 5]")) ;
+            Assert.That(nums.Capacity, Is.GreaterThanOrEqualTo(nums.Count));
+        }
+        [Test]
+        public void Test_Collection_RemoveAll()
+        {
+            //Arrange
+            var nums = new Collection<int>(1, 2, 3, 4, 5);
+
+            //Act
+            for (int i = 0; i <= 4; i++)
+            {
+                nums.RemoveAt(0);
+            }
+
+            //Assert
+            Assert.That(nums.Count ==0);
+        }
+
+        [Test]
+        public void Test_Collection_RemoveAtEnd()
+        {
+            //Arrange
+            var nums = new Collection<int>(1, 2, 3, 4, 5, 6);
+
+            //Act
+            nums.RemoveAt(5);
+
+            //Assert
+            Assert.That(nums.ToString(), Is.EqualTo("[1, 2, 3, 4, 5]"));
+        }
+
+        [Test]
+        public void Test_Collection_RemoveAtMiddle()
+        {
+            //Arrange
+            var nums = new Collection<int>(1, 2, 3, 4, 5, 6);
+
+            //Act
+            nums.RemoveAt(2);
+
+            //Assert
+            Assert.That(nums.ToString(), Is.EqualTo("[1, 2, 4, 5, 6]"));
+        }
+
+        [Test]
+        public void Test_Collection_RemoveAtStart()
+        {
+            //Arrange
+            var nums = new Collection<int>(1, 2, 3, 4, 5, 6);
+
+            //Act
+            nums.RemoveAt(0);
+
+            //Assert
+            Assert.That(nums.ToString(), Is.EqualTo("[2, 3, 4, 5, 6]"));
+        }
+
+        [Test]
+        public void Test_Collection_RemoveByInvalidIndex()
+        {
+            //Arrange
+            var nums = new Collection<int>(1, 2, 3, 4, 5);
+
+            //Assert
+            Assert.That(() => nums.RemoveAt(-1), 
+                Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => nums.RemoveAt(5),
+                Throws.InstanceOf<ArgumentOutOfRangeException>());
+
+        }
+
+        [Test]
+        public void Test_Collection_SetByIndex()
+        {
+            // Arrange
+            var nums = new Collection<int>(1, 2, 3, 4, 5);
+
+            // Act
+            nums[3] = 10;
+
+            // Assert
+            Assert.That(nums.ToString(), Is.EqualTo("[1, 2, 3, 10, 5]"));
+        }
+
+
+        [Test]
+        public void Test_Collection_SetByInvalidIndex()
+        {
+            // Arrange
+            var nums = new Collection<int>(1, 2, 3, 4, 5);
+
+            // Assert
+            Assert.That(() => { nums[-1] = 10; }, 
+                Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => { nums[6] = 10; }, 
+                Throws.InstanceOf<ArgumentOutOfRangeException>());
+        }
+
+        [Test]
+        public void Test_Collection_ToStringCollectionOfCollections()
+        {
+            // Arrange
+            var firstNums = new Collection<int>(1, 2);
+            var secondNums = new Collection<int>(3, 4);
+            var allNums = new Collection<object>(firstNums, secondNums);
+
+            // Assert
+            Assert.That(allNums.ToString(), Is.EqualTo("[[1, 2], [3, 4]]"));
+        }
+
+        [Test]
+        public void Test_Collection_ToStringEmpty()
+        {
+            // Arrange
+            var nums = new Collection<string>(String.Empty);
+
+            // Assert
+            Assert.That(nums.Count == 1);
+            Assert.That(nums.ToString(), Is.EqualTo("[]"));
+        }
+
+        [Test]
+        public void Test_Collection_ToStringSingle()
+        {
+            // Arrange
+            var names = new Collection<string>("Tatyana");
+
+            // Assert
+            Assert.That(names.ToString(), Is.EqualTo("[Tatyana]"));
+        }
     }
 }
